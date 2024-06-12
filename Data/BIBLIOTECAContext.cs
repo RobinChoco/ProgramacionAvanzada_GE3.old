@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using ControlBiblioteca.Models;
+﻿using ControlBiblioteca.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControlBiblioteca.Data;
@@ -22,6 +20,8 @@ public partial class BIBLIOTECAContext : DbContext
 
     public virtual DbSet<Libro> Libros { get; set; }
 
+    public virtual DbSet<Parametro> Parametros { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -37,7 +37,7 @@ public partial class BIBLIOTECAContext : DbContext
     {
         modelBuilder.Entity<Autor>(entity =>
         {
-            entity.HasKey(e => e.AutorId).HasName("PK__AUTOR__F58AE909C1C5982D");
+            entity.HasKey(e => e.AutorId).HasName("PK__AUTOR__F58AE909ACD96785");
 
             entity.ToTable("AUTOR");
 
@@ -53,7 +53,7 @@ public partial class BIBLIOTECAContext : DbContext
 
         modelBuilder.Entity<GeneroLiterario>(entity =>
         {
-            entity.HasKey(e => e.GeneroLiterarioId).HasName("PK__GENERO_L__5B63227081934751");
+            entity.HasKey(e => e.GeneroLiterarioId).HasName("PK__GENERO_L__5B6322709BE81B8B");
 
             entity.ToTable("GENERO_LITERARIO");
 
@@ -69,7 +69,7 @@ public partial class BIBLIOTECAContext : DbContext
 
         modelBuilder.Entity<Libro>(entity =>
         {
-            entity.HasKey(e => e.LibroId).HasName("PK__LIBRO__35A1EC8D8B2AF870");
+            entity.HasKey(e => e.LibroId).HasName("PK__LIBRO__35A1EC8D202E18EE");
 
             entity.ToTable("LIBRO");
 
@@ -93,6 +93,20 @@ public partial class BIBLIOTECAContext : DbContext
                 .HasForeignKey(d => d.GeneroLiterarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__LIBRO__GeneroLit__3B75D760");
+        });
+
+
+        modelBuilder.Entity<Parametro>(entity =>
+        {
+            entity.HasKey(e => e.ParametroId).HasName("PK__PARAMETR__2B3CE672E26A000B");
+
+            entity.ToTable("PARAMETRO");
+
+            entity.Property(e => e.ParametroId).HasColumnName("ParametroID");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.Valor).IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

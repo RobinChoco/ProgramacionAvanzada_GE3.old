@@ -1,21 +1,21 @@
-// Importación del espacio de nombres necesario para el código
+// Importaciï¿½n del espacio de nombres necesario para el cï¿½digo
 using ControlBiblioteca;
 using Microsoft.AspNetCore.Hosting;
 
-// Creación de un nuevo constructor para la aplicación web utilizando la clase WebApplication
+// Creaciï¿½n de un nuevo constructor para la aplicaciï¿½n web utilizando la clase WebApplication
 var builder = WebApplication.CreateBuilder(args);
 
-// Creación de una nueva instancia de la clase Startup, que se encarga de configurar la aplicación
+// Creaciï¿½n de una nueva instancia de la clase Startup, que se encarga de configurar la aplicaciï¿½n
 var startup = new Startup(builder.Configuration);
 
-// Llamada al método ConfigureServices de la clase Startup para configurar los servicios de la aplicación
+// Llamada al mï¿½todo ConfigureServices de la clase Startup para configurar los servicios de la aplicaciï¿½n
 startup.ConfigureServices(builder.Services);
 
-// Construcción de la aplicación
+// Construcciï¿½n de la aplicaciï¿½n
 var app = builder.Build();
 
-// Llamada al método Configure de la clase Startup para configurar la aplicación y el entorno de ejecución
+// Llamada al mï¿½todo Configure de la clase Startup para configurar la aplicaciï¿½n y el entorno de ejecuciï¿½n
 startup.Configure(app, app.Environment);
 
-// Ejecución de la aplicación
+// Ejecuciï¿½n de la aplicaciï¿½n
 app.Run();

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ControlBiblioteca.Controllers
 {
+    [ApiKey]
     [Route("api/[controller]")]
     [ApiController]
     public class GeneroLiterariosController : ControllerBase

@@ -8,9 +8,12 @@ using ControlBiblioteca.DTOs;
 using AutoMapper;
 using ControlBiblioteca.Data;
 using Microsoft.AspNetCore.Http.HttpResults;
+using ControlBiblioteca;
 
 namespace ControlBiblioteca.Controllers
 {
+    [ApiKey]
+
     // Especifica que este controlador responde a las solicitudes en la ruta "/api/[controller]"
     // donde "[controller]" se sustituye por el nombre de la clase sin "Controller" al final
     [Route("api/[controller]")]
