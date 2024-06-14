@@ -5,7 +5,7 @@ namespace ControlBiblioteca.Models;
 
 public partial class GeneroLiterario
 {
-    public int GeneroLiterarioId { get; set; }
+    public int GeneroLiterarioID { get; set; }
 
     public string Descripcion { get; set; } = null!;
 

@@ -2,7 +2,7 @@
 {
     public class GeneroLiterarioDto
     {
-        public int GeneradorLiterarioId { get; set; }
+        public int GeneroLiterarioID { get; set; }
 
         public string Descripcion { get; set; } = null!;
 

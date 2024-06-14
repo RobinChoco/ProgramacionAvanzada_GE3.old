@@ -3,6 +3,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ControlBiblioteca.Data;
 using Microsoft.OpenApi.Models;
+using ControlBiblioteca.Middleware;
+using ControlBiblioteca.Middleware.Middleware;
 
 namespace ControlBiblioteca
 {
@@ -63,6 +65,8 @@ namespace ControlBiblioteca
         // Método para configurar la aplicación y el entorno de ejecución
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //acá se agrega la "dirección" al middleware
+            app.UseMiddleware<ExceptionMiddleware>();
             // Habilita el uso de Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI"); });

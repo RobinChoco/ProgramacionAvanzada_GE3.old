@@ -63,7 +63,7 @@ namespace ControlBiblioteca.Controllers
             _context.GeneroLiterarios.Update(generoLiterario);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioId }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
+            return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
         }
 
         /// <param name="generoLiterarioDto">Datos del nuevo autor.</param>
@@ -77,7 +77,7 @@ namespace ControlBiblioteca.Controllers
             _context.GeneroLiterarios.Add(generoLiterario);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioId }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
+            return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
         }
 
         // DELETE: api/GeneroLiterarios/5

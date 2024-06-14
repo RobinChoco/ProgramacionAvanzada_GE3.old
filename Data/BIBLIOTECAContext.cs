@@ -22,6 +22,8 @@ public partial class BIBLIOTECAContext : DbContext
 
     public virtual DbSet<Parametro> Parametros { get; set; }
 
+    public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -53,11 +55,11 @@ public partial class BIBLIOTECAContext : DbContext
 
         modelBuilder.Entity<GeneroLiterario>(entity =>
         {
-            entity.HasKey(e => e.GeneroLiterarioId).HasName("PK__GENERO_L__5B6322709BE81B8B");
+            entity.HasKey(e => e.GeneroLiterarioID).HasName("PK__GENERO_L__5B6322709BE81B8B");
 
             entity.ToTable("GENERO_LITERARIO");
 
-            entity.Property(e => e.GeneroLiterarioId).HasColumnName("GeneroLiterarioID");
+            entity.Property(e => e.GeneroLiterarioID).HasColumnName("GeneroLiterarioID");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(256)
                 .IsUnicode(false);
