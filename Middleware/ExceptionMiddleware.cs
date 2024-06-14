@@ -41,35 +41,33 @@
                 {
                     using (var scope = serviceProvider.CreateScope())
                     {
-                    //Vean maes con este ServiceProvider el puede instanciar la db al middle sin que se caiga el programa
-                    var dbContext = scope.ServiceProvider.GetRequiredService<BIBLIOTECAContext>();
-                    
-                    //el logger no se está utilizando aún 
-                    logger.LogError(ex, ex.Message);
+                        //Vean maes con este ServiceProvider el puede instanciar la db al middle sin que se caiga el programa
+                        var dbContext = scope.ServiceProvider.GetRequiredService<BIBLIOTECAContext>();
+
+                        //el logger no se está utilizando aún 
+                        logger.LogError(ex, ex.Message);
                         context.Response.ContentType = "application/json";
 
-                    //quise manejar el codigo del error pero no se pedía en la investigación
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    var EndPoints = $"{context.Request.Path}{context.Request.QueryString}";
+                        //quise manejar el codigo del error pero no se pedía en la investigación
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        var EndPoints = $"{context.Request.Path}{context.Request.QueryString}";
 
-                    // Crear una instancia de ErrorLog con los detalles del error
-                    var response = env.IsDevelopment() ? new ErrorLog(0, context.Request.RouteValues["controller"]?.ToString(), EndPoints, ex.Message, ex.StackTrace?.ToString()) :
-                    new ErrorLog(context.Response.StatusCode, "Internal Server Error");
+                        // Crear una instancia de ErrorLog con los detalles del error
+                        var response = env.IsDevelopment() ? new ErrorLog(0, context.Request.RouteValues["controller"]?.ToString(), EndPoints, ex.Message, ex.StackTrace?.ToString()) :
+                        new ErrorLog(context.Response.StatusCode, "Internal Server Error");
 
-                    //se guarda la info en la db
-                    dbContext.ErrorLogs.Add(response);
-                    await dbContext.SaveChangesAsync();
+                        //se guarda la info en la db
+                        dbContext.ErrorLogs.Add(response);
+                        await dbContext.SaveChangesAsync();
 
-                    // Serializar la instancia de ErrorLog a JSON
-                    var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-                    var json = JsonSerializer.Serialize(response, options);
+                        // Serializar la instancia de ErrorLog a JSON
+                        var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+                        var json = JsonSerializer.Serialize(response, options);
 
-                    await context.Response.WriteAsync(json);
-
+                        await context.Response.WriteAsync(json);
+                    }
                 }
             }
         }
-    }
-
     }
 }
