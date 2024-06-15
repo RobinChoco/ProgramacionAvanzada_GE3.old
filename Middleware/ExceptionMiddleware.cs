@@ -44,7 +44,7 @@
                         //Vean maes con este ServiceProvider el puede instanciar la db al middle sin que se caiga el programa
                         var dbContext = scope.ServiceProvider.GetRequiredService<BIBLIOTECAContext>();
 
-                        //el logger no se está utilizando aún 
+                        //el logger es un bloq de notas 
                         logger.LogError(ex, ex.Message);
                         context.Response.ContentType = "application/json";
 
