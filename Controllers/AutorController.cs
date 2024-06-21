@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ControlBiblioteca.Models;
-using ControlBiblioteca.DTOs;
-using AutoMapper;
 using ControlBiblioteca.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using ControlBiblioteca;
+using ControlBiblioteca.Models;
+using AutoMapper;
+using ControlBiblioteca.DTOs;
+using ControlBiblioteca.Middleware;
+using ControlBiblioteca.Interfaces;
 
 namespace ControlBiblioteca.Controllers
 {
@@ -22,12 +24,15 @@ namespace ControlBiblioteca.Controllers
     {
         private readonly BIBLIOTECAContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
 
         // Constructor del controlador que recibe un contexto de base de datos y un objeto IMapper de AutoMapper
         public AutorController(BIBLIOTECAContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            //_unitOfWork = unitOfWork;
         }
 
         /// <summary>

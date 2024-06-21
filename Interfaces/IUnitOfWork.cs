@@ -6,6 +6,8 @@
         /// Referencia a la interface de Autores
         /// </summary>
         IAutorRepository Autor { get; }
+       // IGeneroRepository Genero { get; }
+       // ILibroRepository Libro { get; } 
 
         /// <summary>
         /// Referencia a la interfaca de Parametro

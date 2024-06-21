@@ -1,9 +1,13 @@
 // Importaci�n del espacio de nombres necesario para el c�digo
 using ControlBiblioteca;
+using ControlBiblioteca.Interfaces;
+using ControlBiblioteca.Repositories;
 using Microsoft.AspNetCore.Hosting;
 
 // Creaci�n de un nuevo constructor para la aplicaci�n web utilizando la clase WebApplication
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Creaci�n de una nueva instancia de la clase Startup, que se encarga de configurar la aplicaci�n
 var startup = new Startup(builder.Configuration);
