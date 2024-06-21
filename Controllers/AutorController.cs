@@ -13,7 +13,7 @@ using ControlBiblioteca.Interfaces;
 
 namespace ControlBiblioteca.Controllers
 {
-    [ApiKey]
+    [TypeFilter(typeof(ApiKeyAttribute))]//esto se usa ahora en lugar del apykey
 
     // Especifica que este controlador responde a las solicitudes en la ruta "/api/[controller]"
     // donde "[controller]" se sustituye por el nombre de la clase sin "Controller" al final
@@ -21,16 +21,18 @@ namespace ControlBiblioteca.Controllers
     [ApiController]
     public class AutorController : ControllerBase
     {
-        private readonly BIBLIOTECAContext _context;
-        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        //private readonly BIBLIOTECAContext _context;
+        private readonly IMapper _mapper;
+        
 
         // Constructor del controlador que recibe un contexto de base de datos y un objeto IMapper de AutoMapper
-        public AutorController(BIBLIOTECAContext context, IMapper mapper, IUnitOfWork unitOfWork)
+        public AutorController(/*BIBLIOTECAContext context,*/ IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            //_context = context;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            
         }
 
         /// <summary>
@@ -39,10 +41,9 @@ namespace ControlBiblioteca.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AutorDto>>> GetAutores()
         {
+            var autores = await _unitOfWork.Autor.GetAutorAsync();
             // Método para obtener todos los autores
             // Responde a las solicitudes GET en la ruta base del controlador ("/api/Autor")
-            var autores = await _context.Autors.ToListAsync();
-
             var autorDtos = _mapper.Map<List<AutorDto>>(autores);
             return autorDtos;
         }
@@ -57,7 +58,7 @@ namespace ControlBiblioteca.Controllers
             // Método para obtener un autor por su ID
             // Responde a las solicitudes GET en la ruta con el ID del autor ("/api/Autor/5")
 
-            var autor = await _context.Autors.FindAsync(id);
+            var autor = await _unitOfWork.Autor.FindByIdAsync(id);
 
             if (autor == null)
             {
@@ -78,8 +79,8 @@ namespace ControlBiblioteca.Controllers
             // Método para actualizar un autor
             // Responde a las solicitudes PUT en la ruta con el ID del autor ("/api/Autor/5")
             var autor = _mapper.Map<Autor>(autorDto);
-            _context.Autors.Update(autor);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Autor.Update(autor);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetAutor", new { id = autor.AutorId }, _mapper.Map<AutorDto>(autor));
         }
@@ -95,10 +96,20 @@ namespace ControlBiblioteca.Controllers
             // Responde a las solicitudes POST en la ruta base del controlador ("/api/Autor")
 
             var autor = _mapper.Map<Autor>(autorDto);
-            _context.Autors.Add(autor);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Autor.Create(autor);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetAutor", new { id = autor.AutorId }, _mapper.Map<AutorDto>(autor));
+            
+            
+            //var response = await _unitOfWork.Autor.CreateNewAutor(autorDto);
+
+            //if (response != null && response.SpResponse == 1)
+            //{
+            //    return Ok();
+            //}
+            //else
+            //    return NotFound();
         }
 
 
@@ -112,14 +123,14 @@ namespace ControlBiblioteca.Controllers
             // Método para eliminar un autor por su ID
             // Responde a las solicitudes DELETE en la ruta con el ID del autor ("/api/Autor/5")
 
-            var autor = await _context.Autors.FindAsync(id);
+            var autor = await _unitOfWork.Autor.FindByIdAsync(id);
             if (autor == null)
             {
                 return NotFound();
             }
 
-            _context.Autors.Remove(autor);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Autor.Delete(autor);
+            await _unitOfWork.SaveChangesAsync();
 
             return Ok();
         }
