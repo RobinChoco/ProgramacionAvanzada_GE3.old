@@ -9,6 +9,7 @@ using ControlBiblioteca.Models;
 using AutoMapper;
 using ControlBiblioteca.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using ControlBiblioteca.Interfaces;
 
 namespace ControlBiblioteca.Controllers
 {
@@ -19,11 +20,13 @@ namespace ControlBiblioteca.Controllers
     {
         private readonly BIBLIOTECAContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GeneroLiterariosController(BIBLIOTECAContext context, IMapper mapper)
+        public GeneroLiterariosController(BIBLIOTECAContext context, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/GeneroLiterarios

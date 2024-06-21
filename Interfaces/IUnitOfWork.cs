@@ -8,6 +8,16 @@
         IAutorRepository Autor { get; }
 
         /// <summary>
+        /// Referencia a la interface de Generos LIterarios
+        /// </summary>
+        IGeneroLiterarioRepository GeneroLiterario { get; }
+
+        /// <summary>
+        /// Referencia a la interface de Libros
+        /// </summary>
+        ILibroRepository Libro { get; }
+
+        /// <summary>
         /// Referencia a la interfaca de Parametro
         /// </summary>
         IParametroRepository Parametro { get; }

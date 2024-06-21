@@ -9,6 +9,7 @@ using AutoMapper;
 using ControlBiblioteca.Data;
 using Microsoft.AspNetCore.Http.HttpResults;
 using ControlBiblioteca;
+using ControlBiblioteca.Interfaces;
 
 namespace ControlBiblioteca.Controllers
 {
@@ -22,12 +23,14 @@ namespace ControlBiblioteca.Controllers
     {
         private readonly BIBLIOTECAContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         // Constructor del controlador que recibe un contexto de base de datos y un objeto IMapper de AutoMapper
-        public AutorController(BIBLIOTECAContext context, IMapper mapper)
+        public AutorController(BIBLIOTECAContext context, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
