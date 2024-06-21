@@ -9,28 +9,32 @@ using ControlBiblioteca.Models;
 using AutoMapper;
 using ControlBiblioteca.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using ControlBiblioteca.Interfaces;
 
 namespace ControlBiblioteca.Controllers
 {
-    [ApiKey]
+    [TypeFilter(typeof(ApiKeyAttribute))]//esto se usa ahora en lugar del apykey
     [Route("api/[controller]")]
     [ApiController]
     public class GeneroLiterariosController : ControllerBase
     {
-        private readonly BIBLIOTECAContext _context;
+        private readonly IUnitOfWork _unitOfWork;
+        //private readonly BIBLIOTECAContext _context;
         private readonly IMapper _mapper;
+        
 
-        public GeneroLiterariosController(BIBLIOTECAContext context, IMapper mapper)
+        public GeneroLiterariosController(/*BIBLIOTECAContext context,*/ IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _context = context;
+            //_context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/GeneroLiterarios
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GeneroLiterarioDto>>> GetGeneroLiterarios()
         {
-            var genrosLiterarios = await _context.GeneroLiterarios.ToListAsync();
+            var genrosLiterarios = await _unitOfWork.GeneroLiterario.GetGeneroLiterarioAsync();
 
             var genLitDtos = _mapper.Map<List<GeneroLiterarioDto>>(genrosLiterarios);
             return genLitDtos;
@@ -40,7 +44,7 @@ namespace ControlBiblioteca.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneroLiterarioDto>> GetGeneroLiterario(int id)
         {
-            var generoLiterario = await _context.GeneroLiterarios.FindAsync(id);
+            var generoLiterario = await _unitOfWork.GeneroLiterario.GetGeneroLiterarioById(id);
 
             if (generoLiterario == null)
             {
@@ -60,8 +64,8 @@ namespace ControlBiblioteca.Controllers
             // Método para actualizar un autor
             // Responde a las solicitudes PUT en la ruta con el ID del autor ("/api/Autor/5")
             var generoLiterario = _mapper.Map<GeneroLiterario>(generoLiterarioDto);
-            _context.GeneroLiterarios.Update(generoLiterario);
-            await _context.SaveChangesAsync();
+            _unitOfWork.GeneroLiterario.Update(generoLiterario);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
         }
@@ -74,8 +78,8 @@ namespace ControlBiblioteca.Controllers
         public async Task<ActionResult<GeneroLiterarioDto>> PostGeneroLiterario(GeneroLiterarioDto generoLiterarioDto)
         {
             var generoLiterario = _mapper.Map<GeneroLiterario>(generoLiterarioDto);
-            _context.GeneroLiterarios.Add(generoLiterario);
-            await _context.SaveChangesAsync();
+            _unitOfWork.GeneroLiterario.Create(generoLiterario);
+            await _unitOfWork.SaveChangesAsync();
 
             return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
         }
@@ -84,14 +88,14 @@ namespace ControlBiblioteca.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGeneroLiterario(int id)
         {
-            var generoLiterario = await _context.GeneroLiterarios.FindAsync(id);
+            var generoLiterario = await _unitOfWork.GeneroLiterario.FindByIdAsync(id);
             if (generoLiterario == null)
             {
                 return NotFound();
             }
 
-            _context.GeneroLiterarios.Remove(generoLiterario);
-            await _context.SaveChangesAsync();
+            _unitOfWork.GeneroLiterario.Delete(generoLiterario);
+            await _unitOfWork.SaveChangesAsync();
 
             return Ok();
         }
