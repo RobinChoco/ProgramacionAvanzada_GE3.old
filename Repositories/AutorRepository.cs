@@ -1,6 +1,8 @@
 ﻿using ControlBiblioteca.Data;
+using ControlBiblioteca.DTOs;
 using ControlBiblioteca.Interfaces;
 using ControlBiblioteca.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControlBiblioteca.Repositories
@@ -20,6 +22,15 @@ namespace ControlBiblioteca.Repositories
         public async Task<Autor?> GetAutorById(int autorId)
         {
             return await Context.Autors.FirstOrDefaultAsync(x => x.AutorId == autorId);
+        }
+        public async Task<StoredProcedureDto?> CreateNewAutorAsync(AutorDto resource)
+        {
+            var paramDescription = new SqlParameter("@Descripcion", resource.Descripcion);
+            var paramEstado = new SqlParameter("@Estado", resource.Estado);
+
+            var responseSp = await Context.Set<StoredProcedureDto>().FromSql($"EXECUTE [dbo].[spNewAutor] {paramDescription}, {paramEstado}").ToListAsync();
+
+            return responseSp.FirstOrDefault();
         }
     }
 }

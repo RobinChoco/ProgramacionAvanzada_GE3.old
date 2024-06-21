@@ -1,4 +1,5 @@
-﻿using ControlBiblioteca.Models;
+﻿using ControlBiblioteca.DTOs;
+using ControlBiblioteca.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControlBiblioteca.Data;
@@ -112,6 +113,11 @@ public partial class BIBLIOTECAContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
+
+        modelBuilder.Entity<StoredProcedureDto>(entity =>
+        {
+            entity.HasNoKey();
+        });
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

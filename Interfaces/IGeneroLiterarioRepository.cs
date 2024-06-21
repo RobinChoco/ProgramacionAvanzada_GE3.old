@@ -1,4 +1,5 @@
-﻿using ControlBiblioteca.Models;
+﻿using ControlBiblioteca.DTOs;
+using ControlBiblioteca.Models;
 
 namespace ControlBiblioteca.Interfaces
 {
@@ -6,5 +7,6 @@ namespace ControlBiblioteca.Interfaces
     {
         Task<List<GeneroLiterario>> GetGeneroLiterarioAsync();
         Task<GeneroLiterario?> GetGeneroLiterarioById(int generoLiterarioId);// ? significa posibilidad de null
+        Task<StoredProcedureDto?> CreateNewGeneroLiterarioAsync(GeneroLiterarioDto resource);
     }
 }

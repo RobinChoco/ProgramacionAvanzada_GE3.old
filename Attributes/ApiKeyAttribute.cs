@@ -1,14 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using ControlBiblioteca.Interfaces;
+using AutoMapper;
+using ControlBiblioteca.Data;
+using ControlBiblioteca.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControlBiblioteca
 {
     // Esta clase define un atributo personalizado para la validación de una Api Key.
     // Puede aplicarse a clases y métodos, y actúa como un filtro de acción asincrónico.
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class ApiKeyAttribute : Attribute, IAsyncActionFilter
+    public class ApiKeyAttribute : IAsyncActionFilter
     {
-        // Método que se ejecuta antes de la ejecución de una acción (método del controlador) en ASP.NET Core.
+        // Se crea la instancia de UnitOfWork
+        private readonly IUnitOfWork _unitOfWork;
+
+        // Se inyecta la dependencia del IUnitofWork
+        public ApiKeyAttribute(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        // Método que se ejecuta antes de una acción del (método del controlador).
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             // Intenta obtener el valor del encabezado "ApiKey" de la solicitud HTTP.
@@ -24,8 +37,11 @@ namespace ControlBiblioteca
                 return; // Termina la ejecución del método, no se continúa con la acción del controlador
             }
 
-            // Verifica si el valor del encabezado "ApiKey" coincide con el valor esperado ("Hola123").
-            if (!extractedApiKey.Equals("Hola123"))
+            // Se hace el llamado del del parametro "ApiKey"
+            var key = await _unitOfWork.Parametro.GetParametroByNombreAsync("ApiKey");
+
+            // Verifica si el valor del encabezado "ApiKey" coincide con el valor esperado desde la BD.
+            if (!extractedApiKey.Equals(key!.Valor))
             {
                 // Si el ApiKey es incorrecto, se establece el resultado de la solicitud
                 // con un código de estado 401 (No autorizado) y un mensaje de error.

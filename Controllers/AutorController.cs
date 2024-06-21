@@ -95,13 +95,20 @@ namespace ControlBiblioteca.Controllers
             // Método para crear un nuevo autor
             // Responde a las solicitudes POST en la ruta base del controlador ("/api/Autor")
 
-            var autor = _mapper.Map<Autor>(autorDto);
-            _unitOfWork.Autor.Create(autor);
-            await _unitOfWork.SaveChangesAsync();
+            //var autor = _mapper.Map<Autor>(autorDto);
+            //_unitOfWork.Autor.Create(autor);
+            //await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction("GetAutor", new { id = autor.AutorId }, _mapper.Map<AutorDto>(autor));
-            
-            
+            //return CreatedAtAction("GetAutor", new { id = autor.AutorId }, _mapper.Map<AutorDto>(autor));
+            var response = await _unitOfWork.Autor.CreateNewAutorAsync(autorDto);
+
+            if (response != null && response.SpResponse == 1)
+            {
+                return Ok();
+            }
+            else
+                return NotFound();
+
             //var response = await _unitOfWork.Autor.CreateNewAutor(autorDto);
 
             //if (response != null && response.SpResponse == 1)

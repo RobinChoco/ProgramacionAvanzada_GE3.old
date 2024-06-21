@@ -7,5 +7,6 @@ namespace ControlBiblioteca.Interfaces
     {
         Task<List<Autor>> GetAutorAsync();
         Task<Autor?> GetAutorById(int autorId);
+        Task<StoredProcedureDto?> CreateNewAutorAsync(AutorDto resource);
     }
 }

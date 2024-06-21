@@ -77,11 +77,19 @@ namespace ControlBiblioteca.Controllers
         [HttpPost]
         public async Task<ActionResult<GeneroLiterarioDto>> PostGeneroLiterario(GeneroLiterarioDto generoLiterarioDto)
         {
-            var generoLiterario = _mapper.Map<GeneroLiterario>(generoLiterarioDto);
-            _unitOfWork.GeneroLiterario.Create(generoLiterario);
-            await _unitOfWork.SaveChangesAsync();
+            //var generoLiterario = _mapper.Map<GeneroLiterario>(generoLiterarioDto);
+            //_unitOfWork.GeneroLiterario.Create(generoLiterario);
+            //await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
+            //return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
+            var response = await _unitOfWork.GeneroLiterario.CreateNewGeneroLiterarioAsync(generoLiterarioDto);
+
+            if (response != null && response.SpResponse == 1)
+            {
+                return Ok();
+            }
+            else
+                return NotFound();
         }
 
         // DELETE: api/GeneroLiterarios/5
