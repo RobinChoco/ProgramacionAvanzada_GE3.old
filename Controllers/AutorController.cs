@@ -87,7 +87,7 @@ namespace ControlBiblioteca.Controllers
 
             if (response != null && response.SpResponse == 1)
             {
-                return Ok();
+                return Ok("Registro ingresado satisfactoriamente.");
             }
             else
                 return NotFound();
@@ -147,7 +147,7 @@ namespace ControlBiblioteca.Controllers
             _unitOfWork.Autor.Delete(autor);
             await _unitOfWork.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Registro eliminado.");
         }
     }
 }
