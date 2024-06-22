@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Control Biblioteca",
+    "\\Control Biblioteca\\DTOs",
+    "\\Control Biblioteca\\Interfaces",
+    "\\Control Biblioteca\\Middleware",
+    "\\Control Biblioteca\\Migrations",
+    "\\Control Biblioteca\\Models",
+    "\\Control Biblioteca\\Properties",
+    "\\Control Biblioteca\\Repositories",
+    "\\Control Biblioteca\\ScriptsSQL"
+  ],
+  "PreviewInSolutionExplorer": false
+}
