@@ -32,5 +32,15 @@ namespace ControlBiblioteca.Repositories
 
             return responseSp.FirstOrDefault();
         }
+        public async Task<StoredProcedureDto?> UpdateAutorAsync(AutorDto resource)
+        {
+            var paramAutorId = new SqlParameter("@AutorId", resource.AutorId);
+            var paramDescription = new SqlParameter("@Descripcion", resource.Descripcion);
+            var paramEstado = new SqlParameter("@Estado", resource.Estado);
+
+            var responseSp = await Context.Set<StoredProcedureDto>().FromSql($"EXECUTE [dbo].[spUpdateAutor] {paramAutorId}, {paramDescription}, {paramEstado}").ToListAsync();
+
+            return responseSp.FirstOrDefault();
+        }
     }
 }
