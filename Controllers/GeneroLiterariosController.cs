@@ -63,11 +63,20 @@ namespace ControlBiblioteca.Controllers
         {
             // Método para actualizar un autor
             // Responde a las solicitudes PUT en la ruta con el ID del autor ("/api/Autor/5")
-            var generoLiterario = _mapper.Map<GeneroLiterario>(generoLiterarioDto);
-            _unitOfWork.GeneroLiterario.Update(generoLiterario);
-            await _unitOfWork.SaveChangesAsync();
+            //var generoLiterario = _mapper.Map<GeneroLiterario>(generoLiterarioDto);
+            //_unitOfWork.GeneroLiterario.Update(generoLiterario);
+            //await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
+            //return CreatedAtAction("GetGeneroLiterario", new { id = generoLiterario.GeneroLiterarioID }, _mapper.Map<GeneroLiterarioDto>(generoLiterario));
+
+            var response = await _unitOfWork.GeneroLiterario.UpdateGeneroLiterarioAsync(generoLiterarioDto);
+
+            if (response != null && response.SpResponse == 1)
+            {
+                return Ok();
+            }
+            else
+                return NotFound();
         }
 
         /// <param name="generoLiterarioDto">Datos del nuevo autor.</param>

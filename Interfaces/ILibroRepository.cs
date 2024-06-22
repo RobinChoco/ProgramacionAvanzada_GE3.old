@@ -1,4 +1,5 @@
-﻿using ControlBiblioteca.Models;
+﻿using ControlBiblioteca.DTOs;
+using ControlBiblioteca.Models;
 
 namespace ControlBiblioteca.Interfaces
 {
@@ -6,5 +7,7 @@ namespace ControlBiblioteca.Interfaces
     {
         Task<List<Libro>> GetLibroAsync();
         Task<Libro?> GetLibroById(int libroId);
+        Task<StoredProcedureDto?> CreateNewLibroAsync(LibroDto resource);
+        Task<StoredProcedureDto?> UpdateLibroAsync(LibroDto resource);
     }
 }

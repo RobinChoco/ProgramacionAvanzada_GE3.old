@@ -24,10 +24,21 @@ namespace ControlBiblioteca.Repositories
         }
         public async Task<StoredProcedureDto?> CreateNewGeneroLiterarioAsync(GeneroLiterarioDto resource)
         {
-            var paramDescripcion = new SqlParameter("@Descripcion", resource.Descripcion);
+            var paramDescription = new SqlParameter("@Descripcion", resource.Descripcion);
             var paramEstado = new SqlParameter("@Estado", resource.Estado);
 
-            var responseSp = await Context.Set<StoredProcedureDto>().FromSql($"EXECUTE [dbo].[spNewGeneroLiterario] {paramDescripcion}, {paramEstado}").ToListAsync();
+            var responseSp = await Context.Set<StoredProcedureDto>().FromSql($"EXECUTE [dbo].[spNewGeneroLiterario] {paramDescription}, {paramEstado}").ToListAsync();
+
+            return responseSp.FirstOrDefault();
+        }
+
+        public async Task<StoredProcedureDto?> UpdateGeneroLiterarioAsync(GeneroLiterarioDto resource)
+        {
+            var paramGeneroLiterarioId = new SqlParameter("@GeneroLiterarioId", resource.GeneroLiterarioID);
+            var paramDescription = new SqlParameter("@Descripcion", resource.Descripcion);
+            var paramEstado = new SqlParameter("@Estado", resource.Estado);
+
+            var responseSp = await Context.Set<StoredProcedureDto>().FromSql($"EXECUTE [dbo].[spUpdateGeneroLiterario] {paramGeneroLiterarioId}, {paramDescription}, {paramEstado}").ToListAsync();
 
             return responseSp.FirstOrDefault();
         }

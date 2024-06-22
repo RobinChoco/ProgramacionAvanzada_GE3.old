@@ -8,5 +8,6 @@ namespace ControlBiblioteca.Interfaces
         Task<List<GeneroLiterario>> GetGeneroLiterarioAsync();
         Task<GeneroLiterario?> GetGeneroLiterarioById(int generoLiterarioId);// ? significa posibilidad de null
         Task<StoredProcedureDto?> CreateNewGeneroLiterarioAsync(GeneroLiterarioDto resource);
+        Task<StoredProcedureDto?> UpdateGeneroLiterarioAsync(GeneroLiterarioDto resource);
     }
 }

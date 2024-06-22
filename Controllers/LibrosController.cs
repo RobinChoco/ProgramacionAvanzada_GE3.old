@@ -54,21 +54,39 @@ namespace ControlBiblioteca.Controllers
         [HttpPut]
         public async Task<IActionResult> PutLibro(LibroDto libroDto)
         {
-            var libro = _mapper.Map<Libro>(libroDto);
-            _unitOfWork.Libro.Update(libro);
-            await _unitOfWork.SaveChangesAsync();
+            //var libro = _mapper.Map<Libro>(libroDto);
+            //_unitOfWork.Libro.Update(libro);
+            //await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction("GetLibro", new { id = libro.LibroId }, _mapper.Map<LibroDto>(libro));
+            //return CreatedAtAction("GetLibro", new { id = libro.LibroId }, _mapper.Map<LibroDto>(libro));
+
+            var response = await _unitOfWork.Libro.UpdateLibroAsync(libroDto);
+
+            if (response != null && response.SpResponse == 1)
+            {
+                return Ok();
+            }
+            else
+                return NotFound();
         }
 
         [HttpPost]
         public async Task<ActionResult<LibroDto>> PostLibro(LibroDto libroDto)
         {
-            var libro = _mapper.Map<Libro>(libroDto);
-            _unitOfWork.Libro.Create(libro);
-            await _unitOfWork.SaveChangesAsync();
+            //var libro = _mapper.Map<Libro>(libroDto);
+            //_unitOfWork.Libro.Create(libro);
+            //await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction("GetLibro", new { id = libro.LibroId }, _mapper.Map<LibroDto>(libro));
+            //return CreatedAtAction("GetLibro", new { id = libro.LibroId }, _mapper.Map<LibroDto>(libro));
+
+            var response = await _unitOfWork.Libro.CreateNewLibroAsync(libroDto);
+
+            if (response != null && response.SpResponse == 1)
+            {
+                return Ok();
+            }
+            else
+                return NotFound();
         }
 
         [HttpDelete("{id}")]
